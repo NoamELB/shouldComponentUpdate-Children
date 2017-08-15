@@ -3,7 +3,7 @@ import React from 'react';
 export default function useShallowEqual(WrappedComponent) {
     class ShallowEqualEnhancer extends WrappedComponent {
         shouldComponentUpdate(nextProps, nextState) {
-            if (!super.shouldComponentUpdate || super.shouldComponentUpdate()) {
+            if (!super.shouldComponentUpdate || super.shouldComponentUpdate(nextProps, nextState)) {
                 if (this.state !== nextState) {
                     return true;
                 }
