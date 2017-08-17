@@ -4,134 +4,41 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var React = _interopDefault(require('react'));
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-
-
-
-
-
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-
-
-
-
-
-
-var get = function get(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
-
-var inherits = function (subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
-
-
-
-
-
-
-
-
-
-
-
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function useShallowEqual(WrappedComponent) {
     var ShallowEqualEnhancer = function (_WrappedComponent) {
-        inherits(ShallowEqualEnhancer, _WrappedComponent);
+        _inherits(ShallowEqualEnhancer, _WrappedComponent);
 
         function ShallowEqualEnhancer() {
-            classCallCheck(this, ShallowEqualEnhancer);
-            return possibleConstructorReturn(this, (ShallowEqualEnhancer.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer)).apply(this, arguments));
+            _classCallCheck(this, ShallowEqualEnhancer);
+
+            return _possibleConstructorReturn(this, (ShallowEqualEnhancer.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer)).apply(this, arguments));
         }
 
-        createClass(ShallowEqualEnhancer, [{
+        _createClass(ShallowEqualEnhancer, [{
             key: 'shouldComponentUpdate',
             value: function shouldComponentUpdate(nextProps, nextState) {
-                if (!get(ShallowEqualEnhancer.prototype.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer.prototype), 'shouldComponentUpdate', this) || get(ShallowEqualEnhancer.prototype.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer.prototype), 'shouldComponentUpdate', this).call(this)) {
-                    if (this.state !== nextState) {
-                        return true;
-                    }
-                    if (!shallowEqualWithoutReactElements(this.props, nextProps)) {
-                        return true;
+                var shouldUpdate = false;
+                if (!_get(ShallowEqualEnhancer.prototype.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer.prototype), 'shouldComponentUpdate', this) || _get(ShallowEqualEnhancer.prototype.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState)) {
+                    if (!shallowEqualState(this.state, nextState) || !shallowEqualWithoutReactElements(this.props, nextProps)) {
+                        shouldUpdate = true;
                     }
                 }
-                return false;
+                return shouldUpdate;
             }
         }]);
+
         return ShallowEqualEnhancer;
     }(WrappedComponent);
 
@@ -140,23 +47,39 @@ function useShallowEqual(WrappedComponent) {
     return ShallowEqualEnhancer;
 }
 
-function shallowEqualWithoutReactElements(objectA, objectB) {
+/**
+ * @param {Object} thisState
+ * @param {Object} nextState
+ * @returns {Boolean}
+ */
+function shallowEqualState(thisState, nextState) {
+    return thisState === nextState;
+}
+
+/**
+ * Perform a shallow equal to every prop that is not a React Element
+ * This will return true for unchanged props (where the only changes are the react elements props like 'children')
+ * @param {Object} thisProps
+ * @param {Object} nextProps
+ * @returns {Boolean}
+ */
+function shallowEqualWithoutReactElements(thisProps, nextProps) {
     var equals = false;
-    if (objectA === objectB) {
+    if (thisProps === nextProps) {
         equals = true;
-    } else if ((typeof objectA === 'undefined' ? 'undefined' : _typeof(objectA)) === 'object' && (typeof objectB === 'undefined' ? 'undefined' : _typeof(objectB)) === 'object') {
-        var keys = new Set(Object.keys(objectA), Object.keys(objectB));
+    } else if ((typeof thisProps === 'undefined' ? 'undefined' : _typeof(thisProps)) === 'object' && (typeof nextProps === 'undefined' ? 'undefined' : _typeof(nextProps)) === 'object') {
         equals = true;
+        var propNames = new Set(Object.keys(thisProps), Object.keys(nextProps));
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
 
         try {
-            for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var key = _step.value;
+            for (var _iterator = propNames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var propName = _step.value;
 
-                // TODO: shortly explain why it is enough to only check objectA
-                if (objectA[key] !== objectB[key] && !isReactElement(objectA[key])) {
+                if (thisProps[propName] !== nextProps[propName] && !isReactElement(thisProps[propName])) {
+                    // No need to check nextProps[propName] as well, as we know they are not equal
                     equals = false;
                     break;
                 }
@@ -179,18 +102,25 @@ function shallowEqualWithoutReactElements(objectA, objectB) {
     return equals;
 }
 
+/**
+ * If the provided argument is a valid react element or an array that contains at least
+ * one valid react element in it
+ * @param {*} suspectedElement
+ * @returns {Boolean}
+ */
 function isReactElement(suspectedElement) {
+    var isElem = false;
     if (React.isValidElement(suspectedElement)) {
-        return true;
-    }
-    if (Array.isArray(suspectedElement)) {
+        isElem = true;
+    } else if (Array.isArray(suspectedElement)) {
         for (var i = 0, l = suspectedElement.length; i < l; i++) {
             if (React.isValidElement(suspectedElement[i])) {
-                return true;
+                isElem = true;
+                break;
             }
         }
     }
-    return false;
+    return isElem;
 }
 
 module.exports = useShallowEqual;

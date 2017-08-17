@@ -1,24 +1,18 @@
-'use strict';
-
-const babel = require('rollup-plugin-babel');
-const es2015rollup = require('babel-preset-es2015-rollup');
-const reactPreset = require('babel-preset-react');
-const nodeResolve = require('rollup-plugin-node-resolve');
-
 module.exports = {
   exports: 'default',
   entry: 'index.js',
   plugins: [
-    babel({
+    require('rollup-plugin-babel')({
       presets: [
-        es2015rollup,
-        reactPreset,
-      ]
+        ["es2015", {modules: false}],
+        "react"
+      ],
+      babelrc: false
     }),
-    nodeResolve({
+    require('rollup-plugin-node-resolve')({
       browser: true,
       jsnext: true,
-      main: true,
+      main: true
     })
   ]
 };
