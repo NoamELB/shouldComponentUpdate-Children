@@ -1,7 +1,36 @@
 # shouldComponentUpdate-Children
-"Shallow Equal" HOC implementation to optimize shouldComponentUpdate with children / React elements 🐇➰
+A PureComponent alternative that will actually improve your application performance!
+
+"Shallow Equal" HOC implementation to optimize shouldComponentUpdate with children / React elements.
+
+# The Problem
+React will create a new instance of a React Element on each *render*, so generic implementations to shouldComponentUpdate will return true even if nothing had changed!
+Basically, this simple shouldComponentUpdate implemantation:
+```javascript
+return this.props.children !== nextProps.children;
+```
+is almost as good as writing:
+```javascript
+return true;
+```
+
+See live example here: [codepen.io/NoamELB/pen/RLoxLv](https://codepen.io/NoamELB/pen/RLoxLv?editors=0010)
+
+# Our Solution
+We created an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) which uses [Inheritance Inversion](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#5247) to extend components with a generic shouldComponentUpdate functionality.
+Our generic shouldComponentUpdate implementation does the following:
+* execute the wrapped component's shouldComponentUpdate and continue only if returned *true*.
+* loop and check shallow equal on all props that are not React Elements.
+
+*But isn't this means that if any React Element is actually changing then my component won't render?*
+Yes, but that is the whole point. *React Elements are not something you can rely upon when implementing shouldComponentUpdate!*. In order to tell a component that it should render - you can change any non-React-Element prop to indicate a state change (this can be a designated prop just for that or a prop that is actually in use inside the component).
 
 # Usage
+## Install
+```
+npm i -S shouldComponentUpdate-Children
+```
+
 ### Option 1: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when exporting a component:
 ```javascript
 import useShallowEqual from 'shouldComponentUpdate-Children';
@@ -59,3 +88,17 @@ Wrap your components with this HOC and it will perform a wiser shallow equal che
 ```javascript
 const MyPerformantComponent = useShallowEqual(MyComponent);
 ```
+
+## How do you determine that a prop is a React Element
+1. Any prop that returns true for *React.isValidElement(prop)*.
+2. Any array prop that have at least one item which returns true for *React.isValidElement(prop[i])*
+
+## Why implement as an HOC?
+HOC is very flexible. You can use it either from the inside when exporting or on the outside when importing.
+Using inside is trivial, so let's see some nice example of when to use on the outside:
+* Using a vendor component that has performance issues? just wrap it with the HOC after import.
+* Implementing shouldComponentUpdate in a given component is a headache refactor? HOC to the rescue.
+* shouldComponentUpdate is already implemented but not good enough for your usage? I <3 HOC.
+
+# License
+MIT
