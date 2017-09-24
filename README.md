@@ -5,7 +5,8 @@ A PureComponent alternative that will actually improve your application performa
 
 # The Problem
 React will create a new instance of a React Element on each *render*, so generic implementations to shouldComponentUpdate will return true even if nothing had changed!
-Basically, this simple shouldComponentUpdate implemantation:
+
+Basically, this simple shouldComponentUpdate implementation:
 ```javascript
 return this.props.children !== nextProps.children;
 ```
@@ -17,23 +18,28 @@ return true;
 See live example here: [codepen.io/NoamELB/pen/RLoxLv](https://codepen.io/NoamELB/pen/RLoxLv?editors=0010)
 
 # Our Solution
-We created an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) which uses [Inheritance Inversion](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#5247) to extend components with a generic shouldComponentUpdate functionality.
+**We created an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) which uses [Inheritance Inversion](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#5247) to extend components with a generic shouldComponentUpdate functionality.**
+
 Our generic shouldComponentUpdate implementation does the following:
 * execute the wrapped component's shouldComponentUpdate and continue only if returned *true*.
 * loop and check shallow equal on all props that are not React Elements.
 
-*But isn't this means that if any React Element is actually changing then my component won't render?*
-Yes, but that is the whole point. *React Elements are not something you can rely upon when implementing shouldComponentUpdate!*. In order to tell a component that it should render - you can change any non-React-Element prop to indicate a state change (this can be a designated prop just for that or a prop that is actually in use inside the component).
+
+**But isn't this means that if any React Element is actually changing then my component won't render?**
+
+Yes, but that is the whole point. **React Elements are not something you can rely upon when implementing shouldComponentUpdate!**.
+
+In order to tell a component that it should render - you can change any non-React-Element prop to indicate a state change (this can be a designated prop just for that or a prop that is actually in use inside the component).
 
 # Usage
 ## Install
 ```
-npm i -S shouldComponentUpdate-Children
+npm i -S shouldcomponentupdate-children
 ```
 
 ### Option 1: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when exporting a component:
 ```javascript
-import useShallowEqual from 'shouldComponentUpdate-Children';
+import useShallowEqual from 'shouldcomponentupdate-children';
 
 class MyComponent extends React.Component {
     ....
@@ -45,7 +51,7 @@ export default MyPerformantComponent;
 
 ### Option 2: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when importing a component:
 ```javascript
-import useShallowEqual from 'shouldComponentUpdate-Children';
+import useShallowEqual from 'shouldcomponentupdate-children';
 import MyComponent from "../my-component";
 
 const MyPerformantComponent = useShallowEqual(MyComponent); // use it just like you would use MyComponent

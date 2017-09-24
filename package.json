@@ -1,7 +1,7 @@
 {
-  "name": "shouldComponentUpdate-Children",
-  "version": "0.0.2",
-  "description": "React 'Shallow Equal' HOC implementation to optimize shouldComponentUpdate with children or React elements",
+  "name": "shouldcomponentupdate-children",
+  "version": "1.0.0",
+  "description": "'Shallow Equal' HOC implementation to optimize shouldComponentUpdate with children / React elements.",
   "scripts": {
     "build": "node_modules/.bin/rollup -c rollup.config.js -o index.cjs.js -f cjs -g react:React && node_modules/.bin/rollup -c rollup.config.js -o index.es.js -f es -g react:React",
     "test": "node_modules/.bin/jest"
@@ -19,7 +19,7 @@
   ],
   "author": "NoamELB & Tzook",
   "bugs": {
-    "url": "https://github.com/NoamELB/shouldComponentUpdate-Childrenissues"
+    "url": "https://github.com/NoamELB/shouldComponentUpdate-Children/issues"
   },
   "homepage": "https://github.com/NoamELB/shouldComponentUpdate-Children#readme",
   "license": "MIT",
