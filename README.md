@@ -3,6 +3,34 @@ A PureComponent alternative that will actually improve your application performa
 
 "Shallow Equal" HOC implementation to optimize shouldComponentUpdate with children / React elements.
 
+See live example here: [codepen.io/NoamELB/pen/RLoxLv](https://codepen.io/NoamELB/pen/RLoxLv?editors=0010)
+
+# Usage
+### Install
+```
+npm i -S shouldcomponentupdate-children
+```
+
+### Option 1: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when exporting a component:
+```javascript
+import useShallowEqual from 'shouldcomponentupdate-children';
+
+class MyComponent extends React.Component {
+    ....
+}
+const MyPerformantComponent = useShallowEqual(MyComponent);
+
+export default MyPerformantComponent;
+```
+
+### Option 2: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when importing a component:
+```javascript
+import useShallowEqual from 'shouldcomponentupdate-children';
+import MyComponent from './my-component';
+
+const MyPerformantComponent = useShallowEqual(MyComponent); // use it just like you would use MyComponent
+```
+
 # The Problem
 React will create a new instance of a React Element on each *render*, so generic implementations to shouldComponentUpdate will return true even if nothing had changed!
 
@@ -32,32 +60,6 @@ Our generic shouldComponentUpdate implementation does the following:
 Yes, but that is the whole point. **React Elements are not something you can rely upon when implementing shouldComponentUpdate!**
 
 In order to tell a component that it should render - you can change any non-React-Element prop to indicate a state change (this can be a designated prop just for that or a prop that is actually in use inside the component).
-
-# Usage
-## Install
-```
-npm i -S shouldcomponentupdate-children
-```
-
-### Option 1: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when exporting a component:
-```javascript
-import useShallowEqual from 'shouldcomponentupdate-children';
-
-class MyComponent extends React.Component {
-    ....
-}
-const MyPerformantComponent = useShallowEqual(MyComponent);
-
-export default MyPerformantComponent;
-```
-
-### Option 2: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when importing a component:
-```javascript
-import useShallowEqual from 'shouldcomponentupdate-children';
-import MyComponent from './my-component';
-
-const MyPerformantComponent = useShallowEqual(MyComponent); // use it just like you would use MyComponent
-```
 
 # Q&A
 ## Why use shouldComponentUpdate?
