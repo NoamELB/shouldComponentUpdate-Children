@@ -51,7 +51,7 @@ See live example here: [codepen.io/NoamELB/pen/RLoxLv](https://codepen.io/NoamEL
 Our generic shouldComponentUpdate implementation does the following:
 * execute the wrapped component's shouldComponentUpdate and continue only if returned *true*.
 * shallow equal *this.state* vs *next state* and return *true* if not equal.
-* shallow equal all *this.props* vs *next props*, but skip if a React Elements. return *true* if not equal.
+* shallow equal all *this.props* vs *next props*, but skip React Elements. return *true* if not equal.
 * if reached here - returns false
 
 
@@ -106,8 +106,8 @@ const MyPerformantComponent = useShallowEqual(MyComponent);
 ## Why implement as an HOC?
 HOC is very flexible. You can use it either from the inside when exporting or on the outside when importing.
 Using inside is trivial, so let's see some nice example of when to use on the outside:
-* Using a vendor component that has performance issues? just wrap it with the HOC after import.
-* Implementing shouldComponentUpdate in a given component is a headache refactor? HOC to the rescue.
+* Using a vendor component that has performance issues? Just wrap it with the HOC after the import.
+* Implementing shouldComponentUpdate in a given component is a refactor headache? HOC to the rescue.
 * shouldComponentUpdate is already implemented but not good enough for your usage? I <3 HOC.
 
 # License
