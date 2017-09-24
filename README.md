@@ -22,12 +22,14 @@ See live example here: [codepen.io/NoamELB/pen/RLoxLv](https://codepen.io/NoamEL
 
 Our generic shouldComponentUpdate implementation does the following:
 * execute the wrapped component's shouldComponentUpdate and continue only if returned *true*.
-* loop and check shallow equal on all props that are not React Elements.
+* shallow equal *this.state* vs *next state* and return *true* if not equal.
+* shallow equal all *this.props* vs *next props*, but skip if a React Elements. return *true* if not equal.
+* if reached here - returns false
 
 
 **But isn't this means that if any React Element is actually changing then my component won't render?**
 
-Yes, but that is the whole point. **React Elements are not something you can rely upon when implementing shouldComponentUpdate!**.
+Yes, but that is the whole point. **React Elements are not something you can rely upon when implementing shouldComponentUpdate!**
 
 In order to tell a component that it should render - you can change any non-React-Element prop to indicate a state change (this can be a designated prop just for that or a prop that is actually in use inside the component).
 
@@ -52,7 +54,7 @@ export default MyPerformantComponent;
 ### Option 2: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when importing a component:
 ```javascript
 import useShallowEqual from 'shouldcomponentupdate-children';
-import MyComponent from "../my-component";
+import MyComponent from './my-component';
 
 const MyPerformantComponent = useShallowEqual(MyComponent); // use it just like you would use MyComponent
 ```
