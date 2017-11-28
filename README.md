@@ -118,12 +118,13 @@ const MyPerformantComponent = useShallowEqual(MyComponent);
 
 ## Why implement as an HOC?
 HOC is very useful in this specific case of [Inheritance Inversion](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#5247), you can use it on the outside when importing.
-Let's see some nice example of when to use on the outside:
+
+Let's see some nice examples of when to use on the outside:
 * Using a vendor component that has performance issues? Just wrap it with the HOC after the import.
 * Implementing shouldComponentUpdate in a given component is a refactor headache? HOC to the rescue.
-* shouldComponentUpdate is already implemented but not good enough for your usage? I <3 HOC.
+* shouldComponentUpdate is already implemented but not good enough for your usage? you know who to call.
 
-By tha way, we exports all of the functions from the package, so you can't use them directly when implementing shouldComponentUpdate:
+By tha way, we exports all of the functions from the package, so you can use them directly when implementing shouldComponentUpdate:
 * `shouldComponentUpdate(nextProps, nextState)` - bind the "this" to the function and just use it as your shouldComponentUpdate.
 * `shallowEqual(this.props, nextProps, this.state, nextState)` - same but with no need to bind anything.
 * `shallowEqualWithoutReactElements(thisProps, nextProps)` - the actual shallow equal implementation on the props.
