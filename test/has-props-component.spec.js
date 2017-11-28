@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import useShallowEqual from '../index';
+import {useShallowEqual} from '../index';
 import HasPropsPure from "./mock/PureWithChildren";
 import HasPropsImpure from "./mock/ImpureWithChildren";
 import ShouldUpdatePartial from "./mock/PartialPureWithChildren";

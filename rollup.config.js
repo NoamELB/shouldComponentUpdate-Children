@@ -1,6 +1,5 @@
 module.exports = {
-  exports: 'default',
-  entry: 'index.js',
+  input: 'index.js',
   plugins: [
     require('rollup-plugin-babel')({
       presets: [

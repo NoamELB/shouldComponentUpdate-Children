@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var React = _interopDefault(require('react'));
@@ -31,9 +33,7 @@ function useShallowEqual(WrappedComponent) {
             value: function shouldComponentUpdate(nextProps, nextState) {
                 var shouldUpdate = false;
                 if (!_get(ShallowEqualEnhancer.prototype.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer.prototype), 'shouldComponentUpdate', this) || _get(ShallowEqualEnhancer.prototype.__proto__ || Object.getPrototypeOf(ShallowEqualEnhancer.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState)) {
-                    if (!shallowEqualState(this.state, nextState) || !shallowEqualWithoutReactElements(this.props, nextProps)) {
-                        shouldUpdate = true;
-                    }
+                    shouldUpdate = shallowEqual(this.props, nextProps, this.state, nextState);
                 }
                 return shouldUpdate;
             }
@@ -45,6 +45,31 @@ function useShallowEqual(WrappedComponent) {
     ShallowEqualEnhancer.displayName = 'ShallowEqualEnhanced' + (WrappedComponent.displayName || WrappedComponent.name || 'Component');
 
     return ShallowEqualEnhancer;
+}
+
+/**
+ * Use this function with your "this" in its context.
+ * @example
+ * return shouldComponentUpdate.call(this, nextProps, nextState);
+ * @example
+ * return shouldComponentUpdate.apply(this, [nextProps, nextState]);
+ * @example
+ * return shouldComponentUpdate.bind(this)(nextProps, nextState);
+ * @param {Object} nextProps 
+ * @param {Object} nextState 
+ */
+function shouldComponentUpdate(nextProps, nextState) {
+    return shallowEqual(this.props, nextProps, this.state, nextState);
+}
+
+/**
+ * @param {Object} thisProps 
+ * @param {Object} nextProps 
+ * @param {Object} thisState 
+ * @param {Object} nextState 
+ */
+function shallowEqual(thisProps, nextProps, thisState, nextState) {
+    return !shallowEqualState(thisState, nextState) || !shallowEqualWithoutReactElements(thisProps, nextProps);
 }
 
 /**
@@ -123,4 +148,8 @@ function isReactElement(suspectedElement) {
     return isElem;
 }
 
-module.exports = useShallowEqual;
+exports.useShallowEqual = useShallowEqual;
+exports.shouldComponentUpdate = shouldComponentUpdate;
+exports.shallowEqual = shallowEqual;
+exports.shallowEqualState = shallowEqualState;
+exports.shallowEqualWithoutReactElements = shallowEqualWithoutReactElements;

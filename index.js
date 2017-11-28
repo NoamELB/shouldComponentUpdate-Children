@@ -1,13 +1,11 @@
 import React from 'react';
 
-export default function useShallowEqual(WrappedComponent) {
+export function useShallowEqual(WrappedComponent) {
     class ShallowEqualEnhancer extends WrappedComponent {
         shouldComponentUpdate(nextProps, nextState) {
             let shouldUpdate = false;
             if (!super.shouldComponentUpdate || super.shouldComponentUpdate(nextProps, nextState)) {
-                if (!shallowEqualState(this.state, nextState) || !shallowEqualWithoutReactElements(this.props, nextProps)) {
-                    shouldUpdate = true;
-                }
+                shouldUpdate = shallowEqual(this.props, nextProps, this.state, nextState);
             }
             return shouldUpdate;
         }
@@ -18,11 +16,36 @@ export default function useShallowEqual(WrappedComponent) {
 }
 
 /**
+ * Use this function with your "this" in its context.
+ * @example
+ * return shouldComponentUpdate.call(this, nextProps, nextState);
+ * @example
+ * return shouldComponentUpdate.apply(this, [nextProps, nextState]);
+ * @example
+ * return shouldComponentUpdate.bind(this)(nextProps, nextState);
+ * @param {Object} nextProps 
+ * @param {Object} nextState 
+ */
+export function shouldComponentUpdate(nextProps, nextState) {
+    return shallowEqual(this.props, nextProps, this.state, nextState);
+}
+
+/**
+ * @param {Object} thisProps 
+ * @param {Object} nextProps 
+ * @param {Object} thisState 
+ * @param {Object} nextState 
+ */
+export function shallowEqual(thisProps, nextProps, thisState, nextState) {
+    return !shallowEqualState(thisState, nextState) || !shallowEqualWithoutReactElements(thisProps, nextProps);
+}
+
+/**
  * @param {Object} thisState
  * @param {Object} nextState
  * @returns {Boolean}
  */
-function shallowEqualState(thisState, nextState) {
+export function shallowEqualState(thisState, nextState) {
     return thisState === nextState
 }
 
@@ -33,7 +56,7 @@ function shallowEqualState(thisState, nextState) {
  * @param {Object} nextProps
  * @returns {Boolean}
  */
-function shallowEqualWithoutReactElements(thisProps, nextProps) {
+export function shallowEqualWithoutReactElements(thisProps, nextProps) {
     let equals = false;
     if (thisProps === nextProps) {
         equals = true;

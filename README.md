@@ -13,7 +13,7 @@ npm i -S shouldcomponentupdate-children
 
 ### Option 1: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when exporting a component:
 ```javascript
-import useShallowEqual from 'shouldcomponentupdate-children';
+import {useShallowEqual} from 'shouldcomponentupdate-children';
 
 class MyComponent extends React.Component {
     ....
@@ -22,13 +22,24 @@ const MyPerformantComponent = useShallowEqual(MyComponent);
 
 export default MyPerformantComponent;
 ```
-
 ### Option 2: As an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) when importing a component:
 ```javascript
-import useShallowEqual from 'shouldcomponentupdate-children';
+import {useShallowEqual} from 'shouldcomponentupdate-children';
 import MyComponent from './my-component';
 
 const MyPerformantComponent = useShallowEqual(MyComponent); // use it just like you would use MyComponent
+```
+
+### Option 3: As the shouldComponentUpdate implementation
+```javascript
+import {shallowEqual} from 'shouldcomponentupdate-children';
+
+class MyComponent extends React.Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return shallowEqual(this.props, nextProps, this.state, nextState);
+    }
+}
+export default MyComponent;
 ```
 
 # The Problem
@@ -44,6 +55,8 @@ return true;
 ```
 
 See live example here: [codepen.io/NoamELB/pen/RLoxLv](https://codepen.io/NoamELB/pen/RLoxLv?editors=0010)
+
+Read more about it here: https://medium.com/myheritage-engineering/how-to-greatly-improve-your-react-app-performance-e70f7cbbb5f6
 
 # Our Solution
 **We created an [HOC](https://facebook.github.io/react/docs/higher-order-components.html) which uses [Inheritance Inversion](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#5247) to extend components with a generic shouldComponentUpdate functionality.**
@@ -104,11 +117,17 @@ const MyPerformantComponent = useShallowEqual(MyComponent);
 2. Any array prop that have at least one item which returns true for *React.isValidElement(prop[i])*
 
 ## Why implement as an HOC?
-HOC is very flexible. You can use it either from the inside when exporting or on the outside when importing.
-Using inside is trivial, so let's see some nice example of when to use on the outside:
+HOC is very useful in this specific case of [Inheritance Inversion](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e#5247), you can use it on the outside when importing.
+Let's see some nice example of when to use on the outside:
 * Using a vendor component that has performance issues? Just wrap it with the HOC after the import.
 * Implementing shouldComponentUpdate in a given component is a refactor headache? HOC to the rescue.
 * shouldComponentUpdate is already implemented but not good enough for your usage? I <3 HOC.
+
+By tha way, we exports all of the functions from the package, so you can't use them directly when implementing shouldComponentUpdate:
+* `shouldComponentUpdate(nextProps, nextState)` - bind the "this" to the function and just use it as your shouldComponentUpdate.
+* `shallowEqual(this.props, nextProps, this.state, nextState)` - same but with no need to bind anything.
+* `shallowEqualWithoutReactElements(thisProps, nextProps)` - the actual shallow equal implementation on the props.
+* `shallowEqualState(thisState, nextState)` - the actual shallow equal on the state.
 
 # License
 MIT

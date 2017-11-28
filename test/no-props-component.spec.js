@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import useShallowEqual from '../index';
+import {useShallowEqual} from '../index';
 import NoProps from "./mock/ImpureWithChildren";
 
 describe("NoProps", () => {
